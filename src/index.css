@@ -1,0 +1,393 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600;700;900&family=IM+Fell+English:ital@0;1&family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Orbitron:wght@400;700;900&display=swap');
+
+@import 'tailwindcss';
+
+@theme {
+  --font-display: 'Cinzel Decorative', serif;
+  --font-heading: 'Cinzel', serif;
+  --font-body: 'IM Fell English', serif;
+  --font-lore: 'Lora', serif;
+  --font-hud: 'Orbitron', 'Space Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #080604;
+  color: #d4b876;
+  font-family: 'IM Fell English', serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #0a0806; }
+::-webkit-scrollbar-thumb { background: #3d3020; border-radius: 2px; }
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  33% { opacity: 0.88; }
+  66% { opacity: 0.94; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -300% center; }
+  100% { background-position: 300% center; }
+}
+
+@keyframes pulseGold {
+  0%, 100% { box-shadow: 0 0 8px rgba(201,168,76,0.3); }
+  50%       { box-shadow: 0 0 20px rgba(201,168,76,0.6); }
+}
+
+@keyframes scanlines {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 4px; }
+}
+
+.animate-fade-in  { animation: fadeIn 0.7s ease forwards; }
+.animate-slide-up { animation: slideUp 0.6s ease forwards; }
+.flicker          { animation: flicker 4s ease-in-out infinite; }
+.pulse-gold       { animation: pulseGold 2.5s ease-in-out infinite; }
+
+.gold-shimmer {
+  background: linear-gradient(90deg, #6a4e18, #c9a84c, #f0d080, #c9a84c, #6a4e18);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 5s linear infinite;
+}
+
+.parchment-panel {
+  background: linear-gradient(160deg, #c9a870 0%, #b89050 40%, #c4a468 100%);
+  position: relative;
+}
+
+.parchment-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.stone-panel {
+  background: linear-gradient(160deg, #1e1a12 0%, #141008 60%, #1a1610 100%);
+}
+
+.medieval-btn {
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #2a2016 0%, #1a1408 100%);
+  border: 1px solid #8a6c28;
+  color: #c9a84c;
+  padding: 0.65em 1.8em;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+  clip-path: polygon(6px 0%, calc(100% - 6px) 0%, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 0% calc(100% - 6px), 0% 6px);
+}
+
+.medieval-btn::before {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border: 1px solid rgba(201,168,76,0.2);
+  clip-path: polygon(4px 0%, calc(100% - 4px) 0%, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 0% calc(100% - 4px), 0% 4px);
+  pointer-events: none;
+}
+
+.medieval-btn:hover {
+  background: linear-gradient(180deg, #3a2c1c 0%, #2a1e0c 100%);
+  border-color: #c9a84c;
+  color: #f0d080;
+  box-shadow: 0 0 16px rgba(201,168,76,0.25);
+}
+
+.medieval-btn:active {
+  transform: translateY(1px);
+}
+
+.medieval-btn-sm {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: rgba(20,14,6,0.8);
+  border: 1px solid #5a4818;
+  color: #a08840;
+  padding: 0.4em 1.1em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.medieval-btn-sm:hover {
+  border-color: #8a6c28;
+  color: #c9a84c;
+  background: rgba(40,28,10,0.9);
+}
+
+.medieval-btn-danger {
+  border-color: #8b1a1a;
+  color: #cc4444;
+}
+.medieval-btn-danger:hover {
+  border-color: #cc2222;
+  color: #ff6666;
+  box-shadow: 0 0 16px rgba(180,30,30,0.25);
+}
+
+.gold-border {
+  border: 1px solid #8a6c28;
+  outline: 1px solid rgba(201,168,76,0.15);
+  outline-offset: 3px;
+}
+
+.clue-card {
+  background: linear-gradient(160deg, #1c1610 0%, #141008 100%);
+  border: 1px solid #5a4010;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.clue-card:hover {
+  border-color: #c9a84c;
+  box-shadow: 0 0 12px rgba(201,168,76,0.2);
+  transform: translateY(-2px);
+}
+.clue-card.selected {
+  border-color: #c9a84c;
+  box-shadow: 0 0 20px rgba(201,168,76,0.35);
+}
+
+.location-node {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.location-node:hover .node-circle {
+  filter: brightness(1.4);
+}
+.location-node:hover .node-label {
+  opacity: 1;
+}
+
+.dialogue-option {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  background: rgba(20,16,8,0.7);
+  border: 1px solid #3a2c10;
+  color: #b89850;
+  padding: 0.7em 1.2em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  width: 100%;
+}
+.dialogue-option:hover {
+  border-color: #8a6c28;
+  color: #d4b870;
+  background: rgba(40,28,10,0.8);
+  padding-left: 1.6em;
+}
+
+.ornament-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #5a4010;
+}
+.ornament-divider::before,
+.ornament-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #5a4010, transparent);
+}
+
+.tab-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.5em 1em;
+  border-bottom: 2px solid transparent;
+  color: #6a5428;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+.tab-btn:hover { color: #a08840; }
+.tab-btn.active {
+  color: #c9a84c;
+  border-bottom-color: #c9a84c;
+}
+
+/* Transition container */
+.screen-transition {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+/* Candlelight vignette overlay for atmosphere */
+.vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 40%, transparent 30%, rgba(4,2,1,0.6) 100%);
+  z-index: 1000;
+}
+
+.text-gold { color: #c9a84c; }
+.text-parchment { color: #d4b876; }
+.text-parchment-light { color: #e8d5a3; }
+.text-stone { color: #6a5840; }
+.text-blood { color: #8b2020; }
+
+.font-display  { font-family: 'Cinzel Decorative', serif; }
+.font-heading  { font-family: 'Cinzel', serif; }
+.font-body     { font-family: 'IM Fell English', serif; }
+.font-lore     { font-family: 'Lora', serif; }
+.font-mono     { font-family: 'Space Mono', monospace; }
+
+/* ══════════════════════════════════════════════
+   ARCHIVE OF WORLDS — Cosmic animations
+══════════════════════════════════════════════ */
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.15; transform: scale(1); }
+  50%       { opacity: 0.9;  transform: scale(1.4); }
+}
+
+@keyframes twinkleSlow {
+  0%, 100% { opacity: 0.1; }
+  50%       { opacity: 0.6; }
+}
+
+@keyframes nebulaDrift {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+  33%       { transform: translate(12px, -8px) scale(1.03); opacity: 0.8; }
+  66%       { transform: translate(-8px, 6px) scale(0.98); opacity: 0.5; }
+}
+
+@keyframes archiveReveal {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes portalPulse {
+  0%, 100% { box-shadow: 0 0 20px var(--portal-glow, rgba(201,168,76,0.1)); }
+  50%       { box-shadow: 0 0 40px var(--portal-glow, rgba(201,168,76,0.25)), 0 0 80px var(--portal-glow, rgba(201,168,76,0.08)); }
+}
+
+@keyframes scanLine {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(200%); }
+}
+
+@keyframes glitchShift {
+  0%, 94%, 100% { clip-path: none; transform: translate(0); }
+  95%   { clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%); transform: translate(-4px, 0); }
+  97%   { clip-path: polygon(0 60%, 100% 60%, 100% 75%, 0 75%); transform: translate(4px, 0); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+@keyframes cosmicRotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes particleFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+  50%       { transform: translateY(-12px) rotate(180deg); opacity: 1; }
+}
+
+/* Archive portal card */
+.portal-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+              box-shadow 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  cursor: pointer;
+}
+.portal-card:hover {
+  transform: translateY(-6px) scale(1.012);
+}
+
+/* Scanline overlay for sci-fi portal */
+.scanline-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0, 212, 255, 0.02) 3px,
+    rgba(0, 212, 255, 0.02) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Noise texture for horror portal */
+.noise-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* Archive entry button */
+.archive-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  background: transparent;
+  border: 1px solid rgba(201,168,76,0.5);
+  color: #c9a84c;
+  padding: 0.8em 2.8em;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+}
+.archive-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(201,168,76,0.06);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.archive-btn:hover {
+  border-color: #c9a84c;
+  color: #f0d080;
+  box-shadow: 0 0 30px rgba(201,168,76,0.2), 0 0 60px rgba(201,168,76,0.08);
+}
+.archive-btn:hover::before { opacity: 1; }
