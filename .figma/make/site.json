@@ -1,0 +1,10 @@
+{
+  "description": "Immerse yourself in a dark medieval mystery game where you investigate the king's disappearance by exploring locations, interrogating suspects, and solving clues.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
