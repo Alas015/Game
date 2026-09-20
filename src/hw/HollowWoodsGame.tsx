@@ -8,6 +8,7 @@ import HWEvidenceBoard from './HWEvidenceBoard';
 import HWJournal from './HWJournal';
 import FindingScreen from './FindingScreen';
 import HWResultScreen from './HWResultScreen';
+import TutorialOverlay from '../components/TutorialOverlay';
 
 interface HollowWoodsGameProps {
   onExit: () => void;
@@ -29,6 +30,7 @@ const INITIAL_HW_STATE: HWGameState = {
 
 export default function HollowWoodsGame({ onExit }: HollowWoodsGameProps) {
   const [state, setState] = useState<HWGameState>(INITIAL_HW_STATE);
+  const [showTutorial, setShowTutorial] = useState(false);
 
   function navigate(screen: HWScreen, extra?: Partial<HWGameState>) {
     setState(s => ({ ...s, screen, ...extra }));
@@ -36,6 +38,7 @@ export default function HollowWoodsGame({ onExit }: HollowWoodsGameProps) {
 
   function handleBegin() {
     navigate('hw-map');
+    setShowTutorial(true);
   }
 
   function handleClearingClick(clearingId: string) {
@@ -171,6 +174,7 @@ export default function HollowWoodsGame({ onExit }: HollowWoodsGameProps) {
           onExit={onExit}
         />
       )}
+      {showTutorial && <TutorialOverlay game="hollow-woods" onDismiss={() => setShowTutorial(false)} />}
     </>
   );
 }

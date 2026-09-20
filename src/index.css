@@ -391,3 +391,49 @@ html, body {
   box-shadow: 0 0 30px rgba(201,168,76,0.2), 0 0 60px rgba(201,168,76,0.08);
 }
 .archive-btn:hover::before { opacity: 1; }
+
+.new-game { min-height: 100vh; color: #e9f7ff; padding: 1.5rem; font-family: 'Space Mono', monospace; }
+.cyber-game { background: radial-gradient(circle at 50% 20%, #24102f, #08000e 65%); --accent: #ff006e; }
+.spy-game { background: radial-gradient(circle at 50% 20%, #1b2038, #020814 70%); --accent: #d4af5a; }
+.trivia-game { background: radial-gradient(circle at 50% 20%, #32155a, #09021a 70%); --accent: #b06fff; }
+.game-top { max-width: 900px; margin: auto; display: flex; justify-content: space-between; align-items: center; color: var(--accent); letter-spacing: .2em; font-size: .7rem; }
+.game-panel { max-width: 720px; margin: 12vh auto 0; padding: clamp(1.5rem, 5vw, 4rem); border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent); background: rgba(0,0,0,.28); box-shadow: 0 0 70px color-mix(in srgb, var(--accent) 12%, transparent); }
+.eyebrow { color: var(--accent); letter-spacing: .18em; font-size: .65rem; }
+.game-panel h1 { color: var(--accent); font-size: clamp(2rem, 7vw, 4.5rem); line-height: 1; margin: 1.5rem 0; }
+.game-copy { color: rgba(235,240,255,.72); line-height: 1.8; max-width: 58ch; }
+.primary-btn, .quiet-btn, .choice-grid button, .vote-list button, .quiz-options button, .number-picker button { font: inherit; cursor: pointer; }
+.primary-btn { background: var(--accent); color: #10050f; border: 0; padding: .8rem 1.6rem; margin-top: 1.5rem; font-weight: bold; }
+.quiet-btn { display: block; background: none; border: 0; color: rgba(235,240,255,.55); padding: 1.5rem 0 0; }
+.choice-grid, .quiz-options { display: grid; gap: .8rem; margin-top: 2rem; }
+.choice-grid button, .quiz-options button, .vote-list button { text-align: left; padding: 1rem; color: #eef; background: rgba(255,255,255,.04); border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); }
+.choice-grid button:hover, .quiz-options button:hover, .vote-list button:hover { background: color-mix(in srgb, var(--accent) 15%, transparent); }
+.choice-grid b, .vote-list span { float: right; color: var(--accent); }
+.trace { margin: 2rem 0; color: var(--accent); font-size: .65rem; }
+.trace i { display: block; height: 5px; margin-top: .5rem; background: var(--accent); transition: width .3s; }
+.number-picker { display: flex; gap: .7rem; margin: 1.5rem 0; }
+.number-picker button { width: 3rem; height: 3rem; color: var(--accent); background: transparent; border: 1px solid var(--accent); }
+.number-picker .selected { background: var(--accent); color: #111; }
+.dossier { margin: 2rem 0; padding: 2rem; border: 1px dashed var(--accent); color: var(--accent); text-align: center; letter-spacing: .12em; }
+.dossier.mole { color: #ff4d72; border-color: #ff4d72; }
+.vote-list { display: grid; gap: .7rem; margin-top: 1.5rem; }
+.score-strip { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; color: var(--accent); font-size: .7rem; }
+.shadow-map { display: grid; grid-template-columns: repeat(4, 1fr); gap: .8rem; margin: 1.5rem 0; }
+.map-node { min-height: 5rem; border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); background: rgba(255,255,255,.03); color: var(--accent); cursor: pointer; font: inherit; transition: .2s; }
+.map-node:hover, .map-node.cleared { background: color-mix(in srgb, var(--accent) 18%, transparent); box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 25%, transparent); }
+.map-node small { display: block; margin-top: .5rem; color: #eef; font-size: .6rem; }
+.card-row, .scoreboard { display: grid; gap: .6rem; margin: 1.2rem 0; }
+.data-card, .scoreboard div { display: flex; justify-content: space-between; padding: .8rem; border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent); color: rgba(235,240,255,.8); }
+.data-card b, .scoreboard b { color: var(--accent); }
+.code-input, .name-grid input, .new-game select, .new-game input[type=number] { background: rgba(0,0,0,.35); color: #fff; border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent); padding: .8rem; font: inherit; }
+.code-input { display: block; width: 10rem; font-size: 1.5rem; letter-spacing: .4em; margin: 1.5rem 0; }
+.name-grid { display: grid; gap: .6rem; margin: 1rem 0; }
+.name-grid input { width: 100%; }
+.timer { font-size: clamp(2.5rem, 10vw, 5rem); color: var(--accent); letter-spacing: .08em; margin: 1rem 0; }
+.dossier { margin: 2rem 0; padding: 2rem; border: 1px dashed var(--accent); color: var(--accent); text-align: center; letter-spacing: .12em; }
+.dossier.mole { color: #ff4d72; border-color: #ff4d72; }
+.category-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; margin: 1rem 0; }
+.category-grid span { border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); padding: .7rem; color: rgba(235,240,255,.72); font-size: .7rem; }
+.category-grid span.selected { background: color-mix(in srgb, var(--accent) 22%, transparent); color: #fff; }
+.powerups { display: flex; gap: 1rem; margin-top: 1.4rem; color: var(--accent); font-size: .65rem; }
+.wheel { text-align: center; font-size: 8rem !important; animation: cosmicRotate 2s linear infinite; }
+@media (max-width: 520px) { .shadow-map { grid-template-columns: repeat(2, 1fr); } .category-grid { grid-template-columns: repeat(2, 1fr); } .game-panel { margin-top: 8vh; } }

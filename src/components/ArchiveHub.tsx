@@ -6,6 +6,9 @@ interface ArchiveHubProps {
   onPlayLastKingdom: () => void;
   onPlaySignalLost: () => void;
   onPlayHollowWoods: () => void;
+  onPlayCode: () => void;
+  onPlaySpy: () => void;
+  onPlayTrivia: () => void;
 }
 
 // ── Star field data ──────────────────────────────────────────────────────────
@@ -59,6 +62,39 @@ interface Portal {
   genre: string;
   number: string;
 }
+type PortalLocale = Pick<Portal, 'title' | 'tagline' | 'description' | 'label' | 'players' | 'genre'>;
+const PORTAL_LOCALES: Record<string, Record<'en' | 'az' | 'tr', PortalLocale>> = {
+  'last-kingdom': {
+    en: { title: 'THE LAST KINGDOM', tagline: 'A king has vanished. Six suspects. Countless lies.', description: 'Investigate eight locations, question suspects, connect evidence, and name the guilty.', label: 'Solo Investigation', players: '1 Player', genre: 'Mystery · Medieval' },
+    az: { title: 'SONUNCU KRALLIQ', tagline: 'Kral yoxa çıxıb. Altı şübhəli. Saysız yalan.', description: 'Səkkiz məkanı araşdır, şübhəliləri sorğu-suala çək və günahkarı tap.', label: 'Solo araşdırma', players: '1 oyunçu', genre: 'Detektiv · Orta əsr' },
+    tr: { title: 'SON KRALLIK', tagline: 'Bir kral kayıp. Altı şüpheli. Sayısız yalan.', description: 'Sekiz yeri araştır, şüphelileri sorgula ve suçluyu bul.', label: 'Tek kişilik soruşturma', players: '1 oyuncu', genre: 'Gizem · Orta çağ' },
+  },
+  'signal-lost': {
+    en: { title: 'SIGNAL LOST', tagline: 'Contact severed. Crew missing. System critical.', description: 'Decrypt logs, restore systems, and escape the abandoned station.', label: 'Solo Survival', players: '1 Player', genre: 'Sci-Fi · Thriller' },
+    az: { title: 'SİQNAL İTİB', tagline: 'Əlaqə kəsildi. Ekipaj yoxa çıxdı. Sistem kritikdir.', description: 'Jurnalları deşifrə et, sistemləri bərpa et və stansiyadan qaç.', label: 'Solo sağ qalma', players: '1 oyunçu', genre: 'Elmi-fantastika · Triller' },
+    tr: { title: 'SİNYAL KAYIP', tagline: 'Bağlantı kesildi. Mürettebat kayıp. Sistem kritik.', description: 'Kayıtları çöz, sistemleri onar ve istasyondan kaç.', label: 'Tek kişilik hayatta kalma', players: '1 oyuncu', genre: 'Bilim kurgu · Gerilim' },
+  },
+  'hollow-woods': {
+    en: { title: 'THE HOLLOW WOODS', tagline: 'Something old lives in the dark between the trees.', description: 'Search the dying forest village, decode folklore, and survive the hollow.', label: 'Solo Horror', players: '1 Player', genre: 'Horror · Folk' },
+    az: { title: 'BOŞ MEŞƏLƏR', tagline: 'Ağacların arasındakı qaranlıqda qədim bir şey yaşayır.', description: 'Meşə kəndini araşdır, folkloru çöz və sağ qal.', label: 'Solo qorxu', players: '1 oyunçu', genre: 'Qorxu · Folklor' },
+    tr: { title: 'ÇUKUR ORMAN', tagline: 'Ağaçların arasındaki karanlıkta eski bir şey yaşıyor.', description: 'Ormanı araştır, folkloru çöz ve hayatta kal.', label: 'Tek kişilik korku', players: '1 oyuncu', genre: 'Korku · Halk' },
+  },
+  'code-of-shadows': {
+    en: { title: 'CODE OF SHADOWS', tagline: 'Every system has a back door. Find it. Use it. Vanish.', description: 'Navigate encrypted networks, bypass security, and extract the data.', label: 'Solo Heist', players: '1 Player', genre: 'Cyberpunk · Heist' },
+    az: { title: 'KÖLGƏLƏR KODU', tagline: 'Hər sistemin arxa qapısı var. Tap, istifadə et, yox ol.', description: 'Şifrəli şəbəkələrdə gəz, təhlükəsizliyi keç və məlumatı çıxar.', label: 'Solo oğurluq', players: '1 oyunçu', genre: 'Kiberpank · Oğurluq' },
+    tr: { title: 'GÖLGELERİN KODU', tagline: 'Her sistemin bir arka kapısı vardır. Bul, kullan, kaybol.', description: 'Şifreli ağlarda ilerle, güvenliği aş ve veriyi çıkar.', label: 'Tek kişilik soygun', players: '1 oyuncu', genre: 'Siberpunk · Soygun' },
+  },
+  'spy-ring': {
+    en: { title: 'THE SPY RING', tagline: 'Trust no one. The mole is closer than you think.', description: 'Pass the device, discuss the clues, vote, and expose the double agent.', label: 'Social Deduction', players: '3–5 Players', genre: 'Espionage · Party' },
+    az: { title: 'CASUS ŞƏBƏKƏSİ', tagline: 'Heç kimə inanma. Köstəbək düşündüyündən yaxındır.', description: 'Cihazı ötür, ipuclarını müzakirə et, səs ver və casusu ifşa et.', label: 'Sosial deduksiya', players: '3–5 oyunçu', genre: 'Casusluq · Əyləncə' },
+    tr: { title: 'CASUS HALKASI', tagline: 'Kimseye güvenme. Köstebek düşündüğünden yakın.', description: 'Cihazı devret, ipuçlarını tartış, oy ver ve casusu açığa çıkar.', label: 'Sosyal çıkarım', players: '3–5 oyuncu', genre: 'Casusluk · Parti' },
+  },
+  'trivia-throne': {
+    en: { title: 'TRIVIA THRONE', tagline: 'Only the wisest ruler survives the final round.', description: 'Battle across six knowledge arenas and claim the crown.', label: 'Multiplayer', players: '3–5 Players', genre: 'Trivia · Party' },
+    az: { title: 'BİLİK TA XTI', tagline: 'Son raundda yalnız ən müdrik hökmdar qalır.', description: 'Altı bilik arenasında yarış və tacı qazan.', label: 'Çoxoyunçulu', players: '3–5 oyunçu', genre: 'Viktorina · Əyləncə' },
+    tr: { title: 'BİLGİ TAHTI', tagline: 'Final turunda yalnız en bilge hükümdar kalır.', description: 'Altı bilgi arenasında yarış ve tacı kazan.', label: 'Çok oyunculu', players: '3–5 oyuncu', genre: 'Bilgi · Parti' },
+  },
+};
 
 const PORTALS: Portal[] = [
   {
@@ -127,7 +163,7 @@ const PORTALS: Portal[] = [
     bg: '#08000e',
     borderColor: 'rgba(255, 0, 110, 0.25)',
     titleFont: "'Space Mono', monospace",
-    status: 'coming-soon',
+    status: 'available',
     href: '/games/code-of-shadows',
     icon: '◈',
     genre: 'Cyberpunk · Heist',
@@ -145,7 +181,7 @@ const PORTALS: Portal[] = [
     bg: '#020814',
     borderColor: 'rgba(212, 175, 90, 0.28)',
     titleFont: "'Cinzel', serif",
-    status: 'coming-soon',
+    status: 'available',
     href: '/games/spy-ring',
     icon: '◉',
     genre: 'Espionage · Puzzle',
@@ -163,7 +199,7 @@ const PORTALS: Portal[] = [
     bg: '#09021a',
     borderColor: 'rgba(176, 111, 255, 0.3)',
     titleFont: "'Cinzel Decorative', serif",
-    status: 'coming-soon',
+    status: 'available',
     href: '/games/trivia-throne',
     icon: '♛',
     genre: 'Trivia · Party',
@@ -263,6 +299,8 @@ function PortalCard({
   onPlay?: () => void;
 }) {
   const [hovered, setHovered] = useState(false);
+  const { lang } = useLanguage();
+  const localized = PORTAL_LOCALES[portal.id]?.[lang] ?? portal;
 
   const isAvailable = portal.status === 'available';
 
@@ -505,7 +543,7 @@ function PortalCard({
             letterSpacing: '0.2em',
             textTransform: 'uppercase',
           }}>
-            {portal.genre}
+            {localized.genre}
           </div>
           {portal.status === 'coming-soon' && (
             <div style={{
@@ -560,7 +598,7 @@ function PortalCard({
           textShadow: hovered ? `0 0 30px ${portal.accent}60` : 'none',
           transition: 'text-shadow 0.3s ease',
         }}>
-          {portal.title}
+          {localized.title}
         </h3>
 
         {/* Tagline */}
@@ -573,7 +611,7 @@ function PortalCard({
           lineHeight: 1.55,
           marginBottom: '0.8rem',
         }}>
-          {portal.tagline}
+          {localized.tagline}
         </p>
 
         {/* Reveal on hover: longer description */}
@@ -593,7 +631,7 @@ function PortalCard({
             lineHeight: 1.65,
             paddingTop: '0.2rem',
           }}>
-            {portal.description}
+            {localized.description}
           </p>
         </div>
 
@@ -617,7 +655,7 @@ function PortalCard({
               textTransform: 'uppercase',
               marginBottom: '0.15rem',
             }}>
-              {portal.label}
+              {localized.label}
             </div>
             <div style={{
               fontFamily: 'Space Mono, monospace',
@@ -626,7 +664,7 @@ function PortalCard({
               opacity: 0.35,
               letterSpacing: '0.1em',
             }}>
-              {portal.players}
+              {localized.players}
             </div>
           </div>
 
@@ -864,10 +902,16 @@ function PortalGrid({
   onPlayLastKingdom,
   onPlaySignalLost,
   onPlayHollowWoods,
+  onPlayCode,
+  onPlaySpy,
+  onPlayTrivia,
 }: {
   onPlayLastKingdom: () => void;
   onPlaySignalLost: () => void;
   onPlayHollowWoods: () => void;
+  onPlayCode: () => void;
+  onPlaySpy: () => void;
+  onPlayTrivia: () => void;
 }) {
   return (
     <section
@@ -914,6 +958,9 @@ function PortalGrid({
               portal.id === 'last-kingdom' ? onPlayLastKingdom :
               portal.id === 'signal-lost' ? onPlaySignalLost :
               portal.id === 'hollow-woods' ? onPlayHollowWoods :
+              portal.id === 'code-of-shadows' ? onPlayCode :
+              portal.id === 'spy-ring' ? onPlaySpy :
+              portal.id === 'trivia-throne' ? onPlayTrivia :
               undefined
             }
           />
@@ -1031,7 +1078,7 @@ function Footer() {
 
 // ── Main Component ───────────────────────────────────────────────────────────
 
-export default function ArchiveHub({ onPlayLastKingdom, onPlaySignalLost, onPlayHollowWoods }: ArchiveHubProps) {
+export default function ArchiveHub({ onPlayLastKingdom, onPlaySignalLost, onPlayHollowWoods, onPlayCode, onPlaySpy, onPlayTrivia }: ArchiveHubProps) {
   const portalsRef = useRef<HTMLDivElement>(null);
   const stars = useStars(220);
 
@@ -1067,6 +1114,9 @@ export default function ArchiveHub({ onPlayLastKingdom, onPlaySignalLost, onPlay
           onPlayLastKingdom={onPlayLastKingdom}
           onPlaySignalLost={onPlaySignalLost}
           onPlayHollowWoods={onPlayHollowWoods}
+          onPlayCode={onPlayCode}
+          onPlaySpy={onPlaySpy}
+          onPlayTrivia={onPlayTrivia}
         />
       </div>
 

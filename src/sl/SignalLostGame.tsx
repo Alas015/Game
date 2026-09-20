@@ -8,6 +8,7 @@ import SLEvidenceBoard from './SLEvidenceBoard';
 import SLJournal from './SLJournal';
 import ReportScreen from './ReportScreen';
 import SLResultScreen from './SLResultScreen';
+import TutorialOverlay from '../components/TutorialOverlay';
 
 interface SignalLostGameProps {
   onExit: () => void;
@@ -29,6 +30,7 @@ const INITIAL_SL_STATE: SLGameState = {
 
 export default function SignalLostGame({ onExit }: SignalLostGameProps) {
   const [state, setState] = useState<SLGameState>(INITIAL_SL_STATE);
+  const [showTutorial, setShowTutorial] = useState(false);
 
   function navigate(screen: SLScreen, extra?: Partial<SLGameState>) {
     setState(s => ({ ...s, screen, ...extra }));
@@ -36,6 +38,7 @@ export default function SignalLostGame({ onExit }: SignalLostGameProps) {
 
   function handleBegin() {
     navigate('sl-map');
+    setShowTutorial(true);
   }
 
   function handleRoomClick(roomId: string) {
@@ -182,6 +185,7 @@ export default function SignalLostGame({ onExit }: SignalLostGameProps) {
           onExit={onExit}
         />
       )}
+      {showTutorial && <TutorialOverlay game="signal-lost" onDismiss={() => setShowTutorial(false)} />}
     </>
   );
 }

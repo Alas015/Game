@@ -11,6 +11,8 @@ import EvidenceBoard from './components/EvidenceBoard';
 import Journal from './components/Journal';
 import AccusationScreen from './components/AccusationScreen';
 import ResultScreen from './components/ResultScreen';
+import { CodeOfShadows, SpyRing, TriviaThrone } from './games/NewGames';
+import TutorialOverlay, { type TutorialGame } from './components/TutorialOverlay';
 
 const INITIAL_STATE: GameState = {
   screen: 'archive',
@@ -32,6 +34,10 @@ export default function App() {
   const [previousScreen, setPreviousScreen] = useState<GameScreen>('map');
   const [showSignalLost, setShowSignalLost] = useState(false);
   const [showHollowWoods, setShowHollowWoods] = useState(false);
+  const [showCode, setShowCode] = useState(false);
+  const [showSpy, setShowSpy] = useState(false);
+  const [showTrivia, setShowTrivia] = useState(false);
+  const [tutorialGame, setTutorialGame] = useState<TutorialGame | null>(null);
 
   function navigate(screen: GameScreen, extra?: Partial<GameState>) {
     setPreviousScreen(state.screen);
@@ -44,6 +50,7 @@ export default function App() {
 
   function handleBegin() {
     navigate('map');
+    setTutorialGame('last-kingdom');
   }
 
   function handleLocationClick(locationId: string) {
@@ -130,20 +137,44 @@ export default function App() {
 
   function handlePlaySignalLost() {
     setShowSignalLost(true);
+    setTutorialGame('signal-lost');
   }
 
   function handleExitSignalLost() {
     setShowSignalLost(false);
+    setTutorialGame(null);
     setState(s => ({ ...s, screen: 'archive' }));
   }
 
   function handlePlayHollowWoods() {
     setShowHollowWoods(true);
+    setTutorialGame('hollow-woods');
   }
 
   function handleExitHollowWoods() {
     setShowHollowWoods(false);
+    setTutorialGame(null);
     setState(s => ({ ...s, screen: 'archive' }));
+  }
+  function exitNewGame(setter: (value: boolean) => void) {
+    setter(false);
+    setTutorialGame(null);
+    setState(s => ({ ...s, screen: 'archive' }));
+  }
+
+  function handlePlayCode() {
+    setShowCode(true);
+    setTutorialGame('code-of-shadows');
+  }
+
+  function handlePlaySpy() {
+    setShowSpy(true);
+    setTutorialGame('spy-ring');
+  }
+
+  function handlePlayTrivia() {
+    setShowTrivia(true);
+    setTutorialGame('trivia-throne');
   }
 
   function handleJournalReturn() {
@@ -162,8 +193,31 @@ export default function App() {
   }
 
   if (showHollowWoods) {
-    return <HollowWoodsGame onExit={handleExitHollowWoods} />;
+    return (
+      <>
+        <HollowWoodsGame onExit={handleExitHollowWoods} />
+        {tutorialGame === 'hollow-woods' && <TutorialOverlay game="hollow-woods" onDismiss={() => setTutorialGame(null)} />}
+      </>
+    );
   }
+  if (showCode) return (
+    <>
+      <CodeOfShadows onExit={() => exitNewGame(setShowCode)} />
+      {tutorialGame === 'code-of-shadows' && <TutorialOverlay game="code-of-shadows" onDismiss={() => setTutorialGame(null)} />}
+    </>
+  );
+  if (showSpy) return (
+    <>
+      <SpyRing onExit={() => exitNewGame(setShowSpy)} />
+      {tutorialGame === 'spy-ring' && <TutorialOverlay game="spy-ring" onDismiss={() => setTutorialGame(null)} />}
+    </>
+  );
+  if (showTrivia) return (
+    <>
+      <TriviaThrone onExit={() => exitNewGame(setShowTrivia)} />
+      {tutorialGame === 'trivia-throne' && <TutorialOverlay game="trivia-throne" onDismiss={() => setTutorialGame(null)} />}
+    </>
+  );
 
   return (
     <>
@@ -172,6 +226,9 @@ export default function App() {
           onPlayLastKingdom={handleEnterArchive}
           onPlaySignalLost={handlePlaySignalLost}
           onPlayHollowWoods={handlePlayHollowWoods}
+          onPlayCode={handlePlayCode}
+          onPlaySpy={handlePlaySpy}
+          onPlayTrivia={handlePlayTrivia}
         />
       )}
 
@@ -240,6 +297,9 @@ export default function App() {
           onPlayAgain={handlePlayAgain}
           collectedClueIds={state.collectedClueIds}
         />
+      )}
+      {tutorialGame === 'last-kingdom' && (
+        <TutorialOverlay game="last-kingdom" onDismiss={() => setTutorialGame(null)} />
       )}
     </>
   );
