@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useLanguage } from '../i18n/LanguageContext';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
 interface SLTitleScreenProps {
   onBegin: () => void;
@@ -7,6 +9,12 @@ interface SLTitleScreenProps {
 
 export default function SLTitleScreen({ onBegin, onExit }: SLTitleScreenProps) {
   const [phase, setPhase] = useState(0);
+  const { lang } = useLanguage();
+  const copy = {
+    en: { station: 'RESEARCH STATION HELIOS-9', briefing: 'MISSION BRIEFING', begin: 'BOARD STATION', archive: '← ARCHIVE' },
+    az: { station: 'HELİOS-9 TƏDQİQAT STANSİYASI', briefing: 'MİSSİYA BRİFİNQİ', begin: 'STANSIYAYA DAXİL OL', archive: '← ARXİV' },
+    tr: { station: 'ARAŞTIRMA İSTASYONU HELIOS-9', briefing: 'GÖREV BRİFİNGİ', begin: 'İSTASYONA GİR', archive: '← ARŞİV' },
+  }[lang];
 
   useEffect(() => {
     const timers = [
@@ -117,7 +125,7 @@ export default function SLTitleScreen({ onBegin, onExit }: SLTitleScreenProps) {
             color: 'rgba(255,59,59,0.7)',
             textTransform: 'uppercase',
           }}>
-            RESEARCH STATION HELIOS-9
+            {copy.station}
           </div>
         </div>
 
@@ -206,7 +214,7 @@ export default function SLTitleScreen({ onBegin, onExit }: SLTitleScreenProps) {
               borderBottom: '1px solid rgba(0,212,255,0.5)', borderRight: '1px solid rgba(0,212,255,0.5)' }} />
 
             <div style={{ fontSize: '0.52rem', letterSpacing: '0.25em', color: 'rgba(0,212,255,0.5)', marginBottom: '0.8rem' }}>
-              ▸ MISSION BRIEFING
+              ▸ {copy.briefing}
             </div>
             <p style={{ fontSize: '0.75rem', lineHeight: 1.85, color: 'rgba(138,184,208,0.7)' }}>
               You are a Fleet investigator. Helios-9 — a deep-space research station operated by Helix Corporation —
@@ -279,7 +287,7 @@ export default function SLTitleScreen({ onBegin, onExit }: SLTitleScreenProps) {
               (e.currentTarget as HTMLElement).style.boxShadow = '0 0 20px rgba(0,212,255,0.1)';
             }}
           >
-            ▸ BOARD STATION
+            ▸ {copy.begin}
           </button>
           <button
             onClick={onExit}
@@ -304,8 +312,11 @@ export default function SLTitleScreen({ onBegin, onExit }: SLTitleScreenProps) {
               (e.currentTarget as HTMLElement).style.color = 'rgba(138,184,208,0.4)';
             }}
           >
-            ← ARCHIVE
+            {copy.archive}
           </button>
+        </div>
+        <div style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', zIndex: 4 }}>
+          <LanguageSwitcher />
         </div>
       </div>
 

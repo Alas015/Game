@@ -12,6 +12,7 @@ import Journal from './components/Journal';
 import AccusationScreen from './components/AccusationScreen';
 import ResultScreen from './components/ResultScreen';
 import TutorialOverlay, { type TutorialGame } from './components/TutorialOverlay';
+import ArchiveMiniGame from './components/ArchiveMiniGame';
 
 const INITIAL_STATE: GameState = {
   screen: 'archive',
@@ -34,6 +35,7 @@ export default function App() {
   const [showSignalLost, setShowSignalLost] = useState(false);
   const [showHollowWoods, setShowHollowWoods] = useState(false);
   const [tutorialGame, setTutorialGame] = useState<TutorialGame | null>(null);
+  const [miniGame, setMiniGame] = useState<TutorialGame | null>(null);
 
   function navigate(screen: GameScreen, extra?: Partial<GameState>) {
     setPreviousScreen(state.screen);
@@ -148,6 +150,10 @@ export default function App() {
     setTutorialGame(game);
   }
 
+  function handlePlayMiniGame(game: TutorialGame) {
+    setMiniGame(game);
+  }
+
   function handleExitHollowWoods() {
     setShowHollowWoods(false);
     setState(s => ({ ...s, screen: 'archive' }));
@@ -172,6 +178,10 @@ export default function App() {
     return <HollowWoodsGame onExit={handleExitHollowWoods} />;
   }
 
+  if (miniGame) {
+    return <ArchiveMiniGame game={miniGame} onExit={() => setMiniGame(null)} />;
+  }
+
   return (
     <>
       {screen === 'archive' && (
@@ -180,6 +190,7 @@ export default function App() {
           onPlaySignalLost={handlePlaySignalLost}
           onPlayHollowWoods={handlePlayHollowWoods}
           onPreviewTutorial={handlePreviewTutorial}
+          onPlayMiniGame={handlePlayMiniGame}
         />
       )}
 

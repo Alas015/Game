@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import type { SLGameState } from './slTypes';
 import { SL_ROOMS, SL_CLUES } from './slData';
+import LanguageSwitcher from '../components/LanguageSwitcher';
+import { useLanguage } from '../i18n/LanguageContext';
 
 interface StationMapProps {
   gameState: SLGameState;
@@ -20,6 +22,12 @@ const STATUS_COLORS: Record<string, { border: string; glow: string; dot: string;
 
 export default function StationMap({ gameState, onRoomClick, onEvidence, onJournal, onReport, onExit }: StationMapProps) {
   const [hoveredRoom, setHoveredRoom] = useState<string | null>(null);
+  const { lang } = useLanguage();
+  const copy = {
+    en: { logs: 'LOGS', evidence: 'EVIDENCE', report: 'FILE REPORT', exit: '← EXIT' },
+    az: { logs: 'JURNALLAR', evidence: 'SÜBUTLAR', report: 'HESABAT VER', exit: '← ÇIXIŞ' },
+    tr: { logs: 'KAYITLAR', evidence: 'KANITLAR', report: 'RAPOR GÖNDER', exit: '← ÇIKIŞ' },
+  }[lang];
   const clueCount = gameState.collectedClueIds.length;
   const canReport = clueCount >= 5;
 
@@ -81,8 +89,8 @@ export default function StationMap({ gameState, onRoomClick, onEvidence, onJourn
             EVIDENCE: {clueCount}/7
           </div>
           {[
-            { label: 'LOGS', onClick: onJournal },
-            { label: 'EVIDENCE', onClick: onEvidence },
+            { label: copy.logs, onClick: onJournal },
+            { label: copy.evidence, onClick: onEvidence },
           ].map(({ label, onClick }) => (
             <button
               key={label}
@@ -128,7 +136,7 @@ export default function StationMap({ gameState, onRoomClick, onEvidence, onJourn
                 animation: 'blink 3s ease-in-out infinite',
               }}
             >
-              FILE REPORT
+              {copy.report}
             </button>
           )}
           <button
@@ -153,8 +161,9 @@ export default function StationMap({ gameState, onRoomClick, onEvidence, onJourn
               (e.currentTarget as HTMLElement).style.borderColor = 'rgba(80,100,120,0.3)';
             }}
           >
-            ← EXIT
+            {copy.exit}
           </button>
+          <LanguageSwitcher />
         </div>
       </div>
 

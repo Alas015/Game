@@ -8,6 +8,7 @@ interface ArchiveHubProps {
   onPlaySignalLost: () => void;
   onPlayHollowWoods: () => void;
   onPreviewTutorial: (game: TutorialGame) => void;
+  onPlayMiniGame: (game: TutorialGame) => void;
 }
 
 // ── Star field data ──────────────────────────────────────────────────────────
@@ -173,6 +174,12 @@ const PORTALS: Portal[] = [
   },
 ];
 
+const ARCHIVE_COPY = {
+  en: { the: 'THE', archive: 'ARCHIVE', of: 'OF', worlds: 'WORLDS', subtitle: 'Six worlds. Six mysteries. Choose your gateway.', portals: 'ACTIVE PORTALS — 6 OF 6 REGISTERED', live: 'LIVE', soon: 'SOON', enter: 'ENTER THE ARCHIVE' },
+  az: { the: 'DÜNYALAR', archive: 'ARXİV', of: '—', worlds: 'DÜNYALAR', subtitle: 'Altı dünya. Altı sirr. Keçidinizi seçin.', portals: 'AKTİV KEÇİDLƏR — 6 / 6 QEYDİYYATDA', live: 'AKTİV', soon: 'YAXINDA', enter: 'ARXİVƏ DAXİL OL' },
+  tr: { the: 'DÜNYALAR', archive: 'ARŞİV', of: '—', worlds: 'DÜNYALAR', subtitle: 'Altı dünya. Altı gizem. Geçidinizi seçin.', portals: 'AKTİF GEÇİTLER — 6 / 6 KAYITLI', live: 'CANLI', soon: 'YAKINDA', enter: 'ARŞİVE GİR' },
+} as const;
+
 // ── Star Field ───────────────────────────────────────────────────────────────
 
 function StarField({ stars }: { stars: Star[] }) {
@@ -261,12 +268,17 @@ function PortalCard({
   portal,
   onPlay,
   onTutorial,
+  onMiniGame,
 }: {
   portal: Portal;
   onPlay?: () => void;
   onTutorial?: () => void;
+  onMiniGame?: () => void;
 }) {
   const [hovered, setHovered] = useState(false);
+  const { lang } = useLanguage();
+  const cta = lang === 'az' ? 'BAŞLA' : lang === 'tr' ? 'BAŞLAT' : 'START';
+  const archive = ARCHIVE_COPY[lang];
 
   const isAvailable = portal.status === 'available';
 
@@ -483,7 +495,7 @@ function PortalCard({
       } as React.CSSProperties}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      onClick={isAvailable && onPlay ? onPlay : onTutorial}
+      onClick={isAvailable && onPlay ? onPlay : onMiniGame}
     >
       <InnerDecoration />
 
@@ -522,7 +534,7 @@ function PortalCard({
               border: `1px solid ${portal.accent}40`,
               padding: '0.15em 0.5em',
             }}>
-              SOON
+              {archive.soon}
             </div>
           )}
           {portal.status === 'available' && (
@@ -536,7 +548,7 @@ function PortalCard({
               padding: '0.15em 0.5em',
               animation: 'blink 3s ease-in-out infinite',
             }}>
-              LIVE
+              {archive.live}
             </div>
           )}
         </div>
@@ -665,7 +677,7 @@ function PortalCard({
           ) : (
             <button
             type="button"
-            onClick={(e) => { e.stopPropagation(); onTutorial?.(); }}
+            onClick={(e) => { e.stopPropagation(); onMiniGame?.(); }}
             style={{
               fontFamily: 'Space Mono, monospace',
               fontSize: '0.5rem',
@@ -677,7 +689,7 @@ function PortalCard({
               padding: '0.45em 0.8em',
               cursor: 'pointer',
             }}>
-            VIEW GUIDE
+            {cta}
             </button>
           )}
         </div>
@@ -690,7 +702,8 @@ function PortalCard({
 
 function HeroSection({ onEnter }: { onEnter: () => void }) {
   const [visible, setVisible] = useState(false);
-  const { T } = useLanguage();
+  const { lang } = useLanguage();
+  const archive = ARCHIVE_COPY[lang];
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 100);
@@ -736,7 +749,7 @@ function HeroSection({ onEnter }: { onEnter: () => void }) {
           textTransform: 'uppercase',
           marginBottom: '1rem',
         }}>
-          THE
+          {archive.the}
         </div>
         <h1 style={{
           fontFamily: 'Cinzel Decorative, serif',
@@ -752,7 +765,7 @@ function HeroSection({ onEnter }: { onEnter: () => void }) {
           textShadow: 'none',
           filter: 'drop-shadow(0 0 40px rgba(201,168,76,0.3))',
         }}>
-          ARCHIVE
+          {archive.archive}
         </h1>
         <div style={{
           fontFamily: 'Cinzel Decorative, serif',
@@ -762,7 +775,7 @@ function HeroSection({ onEnter }: { onEnter: () => void }) {
           textTransform: 'uppercase',
           marginBottom: '0.6rem',
         }}>
-          OF
+          {archive.of}
         </div>
         <h1 style={{
           fontFamily: 'Cinzel Decorative, serif',
@@ -777,7 +790,7 @@ function HeroSection({ onEnter }: { onEnter: () => void }) {
           WebkitTextFillColor: 'transparent',
           filter: 'drop-shadow(0 0 40px rgba(201,168,76,0.3))',
         }}>
-          WORLDS
+          {archive.worlds}
         </h1>
       </div>
 
@@ -811,7 +824,7 @@ function HeroSection({ onEnter }: { onEnter: () => void }) {
         transform: visible ? 'translateY(0)' : 'translateY(10px)',
         transition: 'opacity 0.9s ease 1.2s, transform 0.9s ease 1.2s',
       }}>
-        Six worlds. Six mysteries. Choose your gateway.
+        {archive.subtitle}
       </p>
 
       {/* CTA */}
@@ -876,12 +889,16 @@ function PortalGrid({
   onPlaySignalLost,
   onPlayHollowWoods,
   onPreviewTutorial,
+  onPlayMiniGame,
 }: {
   onPlayLastKingdom: () => void;
   onPlaySignalLost: () => void;
   onPlayHollowWoods: () => void;
   onPreviewTutorial: (game: TutorialGame) => void;
+  onPlayMiniGame: (game: TutorialGame) => void;
 }) {
+  const { lang } = useLanguage();
+  const archive = ARCHIVE_COPY[lang];
   return (
     <section
       id="portals"
@@ -903,7 +920,7 @@ function PortalGrid({
           textTransform: 'uppercase',
           marginBottom: '1rem',
         }}>
-          Active Portals — 6 of 6 Registered
+          {archive.portals}
         </div>
         <div style={{
           height: 1,
@@ -934,6 +951,11 @@ function PortalGrid({
               portal.id === 'spy-ring' ? () => onPreviewTutorial('spy-ring') :
               portal.id === 'trivia-throne' ? () => onPreviewTutorial('trivia-throne') :
               undefined
+            }
+            onMiniGame={
+              portal.status === 'coming-soon'
+                ? () => onPlayMiniGame(portal.id as TutorialGame)
+                : undefined
             }
           />
         ))}
@@ -1050,7 +1072,7 @@ function Footer() {
 
 // ── Main Component ───────────────────────────────────────────────────────────
 
-export default function ArchiveHub({ onPlayLastKingdom, onPlaySignalLost, onPlayHollowWoods, onPreviewTutorial }: ArchiveHubProps) {
+export default function ArchiveHub({ onPlayLastKingdom, onPlaySignalLost, onPlayHollowWoods, onPreviewTutorial, onPlayMiniGame }: ArchiveHubProps) {
   const portalsRef = useRef<HTMLDivElement>(null);
   const stars = useStars(220);
 
@@ -1087,6 +1109,7 @@ export default function ArchiveHub({ onPlayLastKingdom, onPlaySignalLost, onPlay
           onPlaySignalLost={onPlaySignalLost}
           onPlayHollowWoods={onPlayHollowWoods}
           onPreviewTutorial={onPreviewTutorial}
+          onPlayMiniGame={onPlayMiniGame}
         />
       </div>
 

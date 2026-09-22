@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useLanguage } from '../i18n/LanguageContext';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
 interface HWTitleScreenProps {
   onBegin: () => void;
@@ -7,6 +9,12 @@ interface HWTitleScreenProps {
 
 export default function HWTitleScreen({ onBegin, onExit }: HWTitleScreenProps) {
   const [phase, setPhase] = useState(0);
+  const { lang } = useLanguage();
+  const copy = {
+    en: { village: 'ASHWICK HOLLOW · AT THE EDGE OF THE WOOD', reason: 'WHY YOU CAME', begin: 'ENTER THE HOLLOW', archive: '← ARCHIVE' },
+    az: { village: 'AŞVİK ÇUXURU · MEŞƏNİN KƏNARINDA', reason: 'NİYƏ GƏLDİNİZ', begin: 'ÇUXURA DAXİL OLUN', archive: '← ARXİV' },
+    tr: { village: 'ASHWICK ÇUKURU · ORMANIN KENARINDA', reason: 'NEDEN GELDİNİZ', begin: 'ÇUKURA GİR', archive: '← ARŞİV' },
+  }[lang];
 
   useEffect(() => {
     const timers = [
@@ -96,7 +104,7 @@ export default function HWTitleScreen({ onBegin, onExit }: HWTitleScreenProps) {
             color: 'rgba(150,120,60,0.55)',
             textTransform: 'uppercase',
           }}>
-            ASHWICK HOLLOW · AT THE EDGE OF THE WOOD
+            {copy.village}
           </div>
         </div>
 
@@ -179,7 +187,7 @@ export default function HWTitleScreen({ onBegin, onExit }: HWTitleScreenProps) {
               borderBottom: '1px solid rgba(90,173,126,0.5)', borderRight: '1px solid rgba(90,173,126,0.5)' }} />
 
             <div style={{ fontFamily: "'Lora', serif", fontStyle: 'italic', fontSize: '0.55rem', letterSpacing: '0.25em', color: 'rgba(90,173,126,0.55)', marginBottom: '0.8rem' }}>
-              ▸ WHY YOU CAME
+              ▸ {copy.reason}
             </div>
             <p style={{ fontFamily: "'IM Fell English', serif", fontSize: '0.85rem', lineHeight: 1.85, color: 'rgba(210,220,210,0.7)' }}>
               Nine days ago, Mara Thorne vanished from Ashwick Hollow — the latest name added to a list of disappearances
@@ -250,7 +258,7 @@ export default function HWTitleScreen({ onBegin, onExit }: HWTitleScreenProps) {
               (e.currentTarget as HTMLElement).style.boxShadow = '0 0 20px rgba(90,173,126,0.1)';
             }}
           >
-            Enter the Hollow
+            {copy.begin}
           </button>
           <button
             onClick={onExit}
@@ -275,8 +283,11 @@ export default function HWTitleScreen({ onBegin, onExit }: HWTitleScreenProps) {
               (e.currentTarget as HTMLElement).style.color = 'rgba(180,200,190,0.4)';
             }}
           >
-            ← Archive
+            {copy.archive}
           </button>
+        </div>
+        <div style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', zIndex: 4 }}>
+          <LanguageSwitcher />
         </div>
       </div>
 

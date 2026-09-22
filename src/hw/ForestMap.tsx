@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import type { HWGameState } from './hwTypes';
 import { HW_CLEARINGS, HW_CLUES } from './hwData';
+import LanguageSwitcher from '../components/LanguageSwitcher';
+import { useLanguage } from '../i18n/LanguageContext';
 
 interface ForestMapProps {
   gameState: HWGameState;
@@ -39,6 +41,12 @@ function center(id: string) {
 
 export default function ForestMap({ gameState, onClearingClick, onEvidence, onJournal, onFinding, onExit }: ForestMapProps) {
   const [hoveredClearing, setHoveredClearing] = useState<string | null>(null);
+  const { lang } = useLanguage();
+  const copy = {
+    en: { journal: 'JOURNAL', evidence: 'EVIDENCE', finding: 'RECORD FINDING', exit: '← LEAVE' },
+    az: { journal: 'GÜNDƏLİK', evidence: 'SÜBUTLAR', finding: 'NƏTİCƏNİ QEYD ET', exit: '← ÇIXIŞ' },
+    tr: { journal: 'GÜNLÜK', evidence: 'KANITLAR', finding: 'SONUCU KAYDET', exit: '← AYRIL' },
+  }[lang];
   const clueCount = gameState.collectedClueIds.length;
   const canFinding = clueCount >= 5;
 
@@ -92,8 +100,8 @@ export default function ForestMap({ gameState, onClearingClick, onEvidence, onJo
             EVIDENCE: {clueCount}/7
           </div>
           {[
-            { label: 'JOURNAL', onClick: onJournal },
-            { label: 'EVIDENCE', onClick: onEvidence },
+            { label: '            {copy.journal}', onClick: onJournal },
+            { label: '            {copy.evidence}', onClick: onEvidence },
           ].map(({ label, onClick }) => (
             <button
               key={label}
@@ -137,7 +145,7 @@ export default function ForestMap({ gameState, onClearingClick, onEvidence, onJo
                 animation: 'blink 3s ease-in-out infinite',
               }}
             >
-              RECORD FINDING
+              {copy.finding}
             </button>
           )}
           <button
@@ -162,8 +170,9 @@ export default function ForestMap({ gameState, onClearingClick, onEvidence, onJo
               (e.currentTarget as HTMLElement).style.borderColor = 'rgba(120,130,120,0.3)';
             }}
           >
-            ← Leave
+            {copy.exit}
           </button>
+          <LanguageSwitcher />
         </div>
       </div>
 
